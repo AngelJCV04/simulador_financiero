@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración del Entorno - Simulador</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- ENLACE A CHART.JS PARA LAS GRÁFICAS MACROECONÓMICAS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- BARRA LATERAL (SIDEBAR) -->
+        <aside class="w-64 bg-slate-900 text-white flex flex-col justify-between hidden md:flex">
+            <div class="p-5">
+                <h1 class="text-xl font-bold tracking-wider flex items-center gap-2">
+                    <i data-lucide="wallet"></i> Simulador v1.0
+                </h1>
+                <nav class="mt-10 space-y-2">
+                    <a href="../index.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+                    </a>
+                    <a href="./configuracion.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="sliders" class="w-5 h-5"></i> Configuración
+                    </a>
+                    <a href="./entorno.html" class="flex items-center gap-3 px-4 py-2.5 bg-blue-600 rounded-lg text-white font-medium transition">
+                        <i data-lucide="globe" class="w-5 h-5"></i> Variables de Entorno
+                    </a>
+                    <a href="./ventas.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i> Plan de Ventas
+                    </a>
+                    <a href="./operaciones.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="factory" class="w-5 h-5"></i> Operaciones
+                    </a>
+                    <a href="./egresos.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="line-chart" class="w-5 h-5"></i> Gastos y Activos
+                    </a>
+                    <a href="./tesoreria.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="landmark" class="w-5 h-5"></i> Tesorería
+                    </a>
+                </nav>
+            </div>
+            <div class="p-5 border-t border-slate-800 text-xs text-slate-500 text-center">
+                © 2026 Sistema Presupuestario
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto p-6 md:p-8">
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Variables Macroeconómicas y Contexto</h2>
+                    <p class="text-sm text-slate-500">Ajusta los factores externos del mercado que impactan los costos operativos y de ventas.</p>
+                </div>
+            </header>
+
+            <!-- SIMULACIÓN DE CRISIS / IMPACTO RÁPIDO -->
+            <section class="bg-amber-50 border border-amber-200 p-6 rounded-xl shadow-xs mb-8">
+                <h3 class="text-sm font-bold text-amber-900 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <i data-lucide="zap" class="w-4 h-4 text-amber-600"></i> Acciones de Impacto Rápido / Simulación de Crisis
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <button id="btnEscenarioInflacion" class="bg-white hover:bg-rose-50 border border-slate-200 hover:border-rose-300 p-3 rounded-lg text-left transition shadow-xs group">
+                        <span class="block text-xs font-bold text-slate-500 group-hover:text-rose-600 uppercase">Hiperinflación</span>
+                        <span class="block text-sm text-slate-700 font-medium mt-1">Subir Inflación +15%</span>
+                    </button>
+                    <button id="btnEscenarioRecesion" class="bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-300 p-3 rounded-lg text-left transition shadow-xs group">
+                        <span class="block text-xs font-bold text-slate-500 group-hover:text-amber-600 uppercase">Recesión Global</span>
+                        <span class="block text-sm text-slate-700 font-medium mt-1">PIB -3% / Ventas -20%</span>
+                    </button>
+                    <button id="btnEscenarioTech" class="bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 p-3 rounded-lg text-left transition shadow-xs group">
+                        <span class="block text-xs font-bold text-slate-500 group-hover:text-blue-600 uppercase">Automatización Core</span>
+                        <span class="block text-sm text-slate-700 font-medium mt-1">Inversión TI / Costos -15%</span>
+                    </button>
+                    <button id="btnRestablecer" class="bg-slate-800 hover:bg-slate-900 text-white p-3 rounded-lg text-center transition shadow-xs font-semibold text-sm flex items-center justify-center gap-2">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> Valores Base
+                    </button>
+                </div>
+            </section>
+
+            <!-- DISTRIBUCIÓN EN COLUMNAS: PARÁMETROS VS GRÁFICAS -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- COLUMNA 1 Y 2: SELECTORES DE CONFIGURACIÓN -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Variables Económicas -->
+                    <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs">
+                        <h3 class="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
+                            <i data-lucide="trending-up" class="text-blue-600"></i> Variables Económicas
+                        </h3>
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <label class="font-medium text-slate-700">Tasa de Inflación Anual</label>
+                                    <span id="valInflacion" class="font-bold text-slate-900">4.5%</span>
+                                </div>
+                                <input type="range" id="rangeInflacion" min="0" max="30" step="0.5" value="4.5" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <label class="font-medium text-slate-700">Tipo de Cambio (DOP por USD)</label>
+                                    <span id="valTipoCambio" class="font-bold text-slate-900">58.50</span>
+                                </div>
+                                <input type="range" id="rangeTipoCambio" min="50" max="75" step="0.10" value="58.50" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <label class="font-medium text-slate-700">Tasa de Interés de Referencia</label>
+                                    <span id="valInteres" class="font-bold text-slate-900">6.25%</span>
+                                </div>
+                                <input type="range" id="rangeInteres" min="1" max="20" step="0.25" value="6.25" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <label class="font-medium text-slate-700">Crecimiento Estimado del PIB</label>
+                                    <span id="valPIB" class="font-bold text-slate-900">5.0%</span>
+                                </div>
+                                <input type="range" id="rangePIB" min="-10" max="15" step="0.5" value="5.0" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Contexto Operativo -->
+                    <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs">
+                        <h3 class="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
+                            <i data-lucide="bar-chart-3" class="text-blue-600"></i> Variables de Contexto Operativo
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Inversión en Tecnología / Automatización</label>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2.5 text-slate-400 text-sm">$</span>
+                                    <input type="number" id="numInversionTech" value="25000" class="w-full pl-7 p-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <label class="font-medium text-slate-700">Participación de Mercado Target</label>
+                                    <span id="valMarketShare" class="font-bold text-slate-900">18%</span>
+                                </div>
+                                <input type="range" id="rangeMarketShare" min="1" max="100" value="18" class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Presión de Competidores directos</label>
+                                <select id="selCompetencia" class="w-full p-2 border border-slate-200 rounded-lg bg-white text-sm focus:outline-none focus:border-blue-500">
+                                    <option value="baja">Intensidad Baja (Mercado Estable)</option>
+                                    <option value="media" selected>Intensidad Media (Guerra de Precios Moderada)</option>
+                                    <option value="alta">Intensidad Alta (Agresiva / Nuevos Entrantes)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- NUEVO: COLUMNA DERECHA (VISUALIZACIÓN DE GRÁFICA MACRO) -->
+                <div class="space-y-6">
+                    <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs flex flex-col h-full justify-between">
+                        <div>
+                            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2 mb-1">
+                                <i data-lucide="activity" class="text-blue-600 w-5 h-5"></i> Monitor de Estrés Macroeconómico
+                            </h3>
+                            <p class="text-xs text-slate-400 mb-6">Comparativa porcentual indexada de tasas clave del entorno simulado.</p>
+                        </div>
+                        
+                        <!-- Contenedor del Canvas de Chart.js -->
+                        <div class="relative w-full h-72">
+                            <canvas id="graficaEntorno"></canvas>
+                        </div>
+
+                        <div class="mt-6 border-t border-slate-100 pt-4 bg-slate-50/50 p-3 rounded-lg">
+                            <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Nota de Simulación</span>
+                            <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                Modificar las tasas de interés o los picos inflacionarios altera la salud financiera general. Los escenarios críticos ajustan automáticamente estos vectores de riesgo corporativo.
+                            </p>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="../controllers/entorno.js"></script>
+</body>
+</html>

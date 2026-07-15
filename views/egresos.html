@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gastos y Activos - Simulador</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <div class="flex h-screen overflow-hidden">
+        <aside class="w-64 bg-slate-900 text-white flex flex-col justify-between hidden md:flex">
+            <div class="p-5">
+                <h1 class="text-xl font-bold tracking-wider flex items-center gap-2">
+                    <i data-lucide="wallet"></i> Simulador v1.0
+                </h1>
+                <nav class="mt-10 space-y-2">
+                    <a href="../index.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+                    </a>
+                    <a href="./configuracion.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="sliders" class="w-5 h-5"></i> Configuración
+                    </a>
+                    <a href="./entorno.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="globe" class="w-5 h-5"></i> Variables de Entorno
+                    </a>
+                    <a href="./ventas.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i> Plan de Ventas
+                    </a>
+                    <a href="./operaciones.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="factory" class="w-5 h-5"></i> Operaciones
+                    </a>
+                    <a href="./egresos.html" class="flex items-center gap-3 px-4 py-2.5 bg-blue-600 rounded-lg text-white font-medium transition">
+                        <i data-lucide="line-chart" class="w-5 h-5"></i> Gastos y Activos
+                    </a>
+                    <a href="./tesoreria.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="landmark" class="w-5 h-5"></i> Tesorería
+                    </a>
+                </nav>
+            </div>
+            <div class="p-5 border-t border-slate-800 text-xs text-slate-500 text-center">
+                © 2026 Sistema Presupuestario
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-6 md:p-8">
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Gestión de Gastos y Capex (Activos)</h2>
+                    <p class="text-sm text-slate-500">Clasifica los egresos fijos corporativos y automatiza la amortización del equipamiento instalado.</p>
+                </div>
+                <button id="btnRecalcularEgresos" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-xs">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i> Actualizar Matriz
+                </button>
+            </header>
+
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-xs">
+                    <span class="block text-xs font-bold text-slate-400 uppercase">Gastos Operativos (OPEX)</span>
+                    <h3 id="txtTotalOpex" class="text-2xl font-bold text-slate-900 mt-1">$0.00</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-xs">
+                    <span class="block text-xs font-bold text-slate-400 uppercase">Inversión Total en Activos (CAPEX)</span>
+                    <h3 id="txtTotalCapex" class="text-2xl font-bold text-blue-600 mt-1">$0.00</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-xs">
+                    <span class="block text-xs font-bold text-slate-400 uppercase">Depreciación Mensual Acumulada</span>
+                    <h3 id="txtTotalDepreciacion" class="text-2xl font-bold text-amber-600 mt-1">$0.00</h3>
+                </div>
+            </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs space-y-6">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                            <i data-lucide="pie-chart" class="text-blue-600 w-5 h-5"></i> Parámetros de Proyección
+                        </h3>
+                        <p class="text-xs text-slate-400">Define el monto maestro y porcentaje operativo para el cálculo de la escala.</p>
+                    </div>
+
+                    <div class="border-b border-slate-100 pb-4">
+                        <label for="montoBaseProyeccion" class="block text-xs font-semibold text-slate-600 mb-1">Monto Base de Proyección (DOP)</label>
+                        <input type="text" id="montoBaseProyeccion" value="150,000.00" class="w-full px-3 py-1.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-hidden focus:border-blue-500 focus:bg-white font-medium transition shadow-xs" placeholder="0.00">
+                    </div>
+
+                    <div class="border-b border-slate-100 pb-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <label for="porcentajeOpex" class="block text-xs font-semibold text-slate-600 font-medium">Factor % Gastos Operativos (OPEX)</label>
+                            <span class="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1 rounded-sm uppercase tracking-wider animate-pulse">Dinámico</span>
+                        </div>
+                        <input type="text" id="porcentajeOpex" value="18.89%" class="w-full px-3 py-1.5 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-hidden focus:border-blue-500 focus:bg-white font-bold transition shadow-xs" placeholder="0.00%">
+                    </div>
+
+                    <div class="pt-2">
+                        <span class="block text-xs font-bold text-slate-400 uppercase mb-3">Distribución del Costo de Activos (Escalado)</span>
+                        <div class="relative w-full h-64">
+                            <canvas id="graficaCapex"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs lg:col-span-2 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                                <i data-lucide="hard-drive" class="text-blue-600 w-5 h-5"></i> Control de Activos Fijos e Infraestructura
+                            </h3>
+                            <p class="text-xs text-slate-400">Cálculo lineal basado en valor de adquisición y rescate escalado.</p>
+                        </div>
+                        <button id="btnAgregarActivo" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1 transition">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Añadir Activo
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="border-b border-slate-100 text-slate-400 text-xs font-bold uppercase tracking-wider">
+                                    <th class="pb-2 w-1/3">Bien / Activo</th>
+                                    <th class="pb-2">Costo Compra Base</th>
+                                    <th class="pb-2 text-center">Vida Útil (Años)</th>
+                                    <th class="pb-2 text-center">Valor Residual</th>
+                                    <th class="pb-2 text-right">Depr. Mensual</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaActivos" class="divide-y divide-slate-50">
+                                </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="../controllers/egresos.js"></script>
+</body>
+</html>

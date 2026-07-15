@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulación Avanzada y Presupuesto Maestro - Simulador</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <div class="flex h-screen overflow-hidden">
+        <aside class="w-64 bg-slate-900 text-white flex flex-col justify-between hidden md:flex">
+            <div class="p-5">
+                <h1 class="text-xl font-bold tracking-wider flex items-center gap-2">
+                    <i data-lucide="wallet"></i> Simulador v1.0
+                </h1>
+                <nav class="mt-10 space-y-2">
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 bg-blue-600 rounded-lg text-white font-medium transition">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard Maestro
+                    </a>
+                    <a href="./views/configuracion.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="sliders" class="w-5 h-5"></i> Configuración
+                    </a>
+                    <a href="./views/entorno.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="globe" class="w-5 h-5"></i> Variables de Entorno
+                    </a>
+                    <a href="./views/ventas.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i> Plan de Ventas
+                    </a>
+                    <a href="./views/operaciones.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="factory" class="w-5 h-5"></i> Operaciones
+                    </a>
+                    <a href="./views/egresos.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="line-chart" class="w-5 h-5"></i> Gastos y Activos
+                    </a>
+                    <a href="./views/tesoreria.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="landmark" class="w-5 h-5"></i> Tesorería
+                    </a>
+                </nav>
+            </div>
+            <div class="p-5 border-t border-slate-800 text-xs text-slate-500 text-center">
+                © 2026 Sistema Presupuestario
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-6 md:p-8">
+            <header class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-900">Centro de Control y Presupuesto Maestro</h2>
+                <p class="text-sm text-slate-500">Ejecuta simulaciones de estrés multidimensionales y gestiona el pronóstico continuo (Rolling Forecast).</p>
+            </header>
+
+            <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs mb-8">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                            <i data-lucide="calendar-range" class="text-indigo-600"></i> Línea de Tiempo: Rolling Forecast
+                        </h3>
+                        <p class="text-xs text-slate-400">Alterna entre valores proyectados y datos reales recolectados del mercado para reajustar el año.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" id="wrapperRollingForecast">
+                    </div>
+            </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs space-y-6">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                            <i data-lucide="sliders" class="text-blue-600"></i> Matriz de Sensibilidad (What-If)
+                        </h3>
+                        <p class="text-xs text-slate-400">Estresa los inductores de valor para analizar la resiliencia.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label for="montoBaseProyeccion" class="block text-xs font-semibold text-slate-600 mb-1">Monto Base de Proyección (DOP)</label>
+                            <input type="text" id="montoBaseProyeccion" value="150,000.00" class="w-full px-3 py-1.5 text-sm bg-slate-50 border border-slate-200 rounded-lg ...">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+                                <label for="stressVentas">Volumen de Ventas</label>
+                                <span id="lblStressVentas">100%</span>
+                            </div>
+                            <input type="range" id="stressVentas" min="50" max="150" value="100" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+                                <label for="stressCostos">Costos de Materia Prima</label>
+                                <span id="lblStressCostos">100%</span>
+                            </div>
+                            <input type="range" id="stressCostos" min="80" max="150" value="100" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+                                <label for="stressInflacion">Incremento de Inflación</label>
+                                <span id="lblStressInflacion">+0%</span>
+                            </div>
+                            <input type="range" id="stressInflacion" min="0" max="20" value="0" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-3">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Ratios de Salud Resultantes</h4>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-500">Rentabilidad Operativa (Margen):</span>
+                            <span id="ratioMargen" class="font-bold text-slate-900">0.0%</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-500">Liquidez Corriente (Efectivo):</span>
+                            <span id="ratioLiquidez" class="font-bold text-slate-900">0.00x</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs lg:col-span-2 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="bar-chart-3" class="text-emerald-600"></i> Desempeño Consolidado: Utilidad vs Caja
+                        </h3>
+                        <div class="relative h-64">
+                            <canvas id="chartMasterConsolidado"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4 mt-4">
+                        <div class="p-3 bg-emerald-50/60 rounded-xl border border-emerald-100/40 text-center">
+                            <span class="text-[10px] text-emerald-700 font-bold uppercase tracking-wider block">EBITDA Acumulado</span>
+                            <span id="txtEbitdaMaster" class="text-lg font-bold text-emerald-800 block mt-0.5">$0.00</span>
+                        </div>
+                        <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-100/40 text-center">
+                            <span class="text-[10px] text-blue-700 font-bold uppercase tracking-wider block">Caja Disponible Cierre</span>
+                            <span id="txtCajaMaster" class="text-lg font-bold text-blue-800 block mt-0.5">$0.00</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="../controllers/master.js"></script>
+</body>
+</html>

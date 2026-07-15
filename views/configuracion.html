@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración Estratégica - Simulador</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar / Barra Lateral -->
+        <aside class="w-64 bg-slate-900 text-white flex flex-col justify-between hidden md:flex">
+            <div class="p-5">
+                <h1 class="text-xl font-bold tracking-wider flex items-center gap-2">
+                    <i data-lucide="wallet"></i> Simulador v1.0
+                </h1>
+                <nav class="mt-10 space-y-2">
+                    <a href="../index.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+                    </a>
+                    <a href="./configuracion.html" class="flex items-center gap-3 px-4 py-2.5 bg-blue-600 rounded-lg text-white font-medium transition">
+                        <i data-lucide="sliders" class="w-5 h-5"></i> Configuración
+                    </a>
+                    <a href="./entorno.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="globe" class="w-5 h-5"></i> Variables de Entorno
+                    </a>
+                    <a href="./ventas.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i> Plan de Ventas
+                    </a>
+                    <a href="./operaciones.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="factory" class="w-5 h-5"></i> Operaciones
+                    </a>
+                    <a href="./egresos.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="line-chart" class="w-5 h-5"></i> Gastos y Activos
+                    </a>
+                    <a href="./tesoreria.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="landmark" class="w-5 h-5"></i> Tesorería
+                    </a>
+                </nav>
+            </div>
+            <div class="p-5 border-t border-slate-800 text-xs text-slate-500 text-center">
+                © 2026 Sistema Presupuestario
+            </div>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="flex-1 overflow-y-auto p-6 md:p-8">
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Estructura Organizacional y Políticas</h2>
+                    <p class="text-sm text-slate-500">Define los cimientos institucionales y las reglas de control presupuestario.</p>
+                </div>
+                <button id="btnGuardarConfig" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-semibold shadow-sm transition flex items-center gap-2">
+                    <i data-lucide="save" class="w-4 h-4"></i> Guardar Todo
+                </button>
+            </header>
+
+            <!-- Sección 1: Filosofía Corporativa -->
+            <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs mb-8">
+                <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <i data-lucide="compass" class="text-blue-600"></i> 1. Filosofía Institucional
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Misión de la Empresa</label>
+                        <textarea id="txtMision" rows="3" class="w-full p-3 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 text-sm" placeholder="¿Cuál es el propósito central de la organización?"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Visión Estratégica</label>
+                        <textarea id="txtVision" rows="3" class="w-full p-3 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 text-sm" placeholder="¿Hacia dónde se dirige la empresa a largo plazo?"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección 2: Estructura y Centros de Costo -->
+            <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs mb-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="sitemap" class="text-blue-600"></i> 2. Estructura y Centros de Costo
+                    </h3>
+                    <button id="btnAgregarDepto" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1 transition">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i> Añadir Departamento
+                    </button>
+                </div>
+                
+                <!-- Tabla de Estructura -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-100 text-slate-400 text-xs font-bold uppercase tracking-wider">
+                                <th class="pb-3 w-1/4">Departamento / Área</th>
+                                <th class="pb-3 w-1/4">Centro de Costo (Código)</th>
+                                <th class="pb-3 w-1/4">Responsable (Jerarquía)</th>
+                                <th class="pb-3 w-1/12 text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaDeptos" class="divide-y divide-slate-50 text-sm">
+                            <!-- Los renglones se generarán dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sección 3: Políticas Presupuestarias básicas -->
+            <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs">
+                <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <i data-lucide="shield-alert" class="text-blue-600"></i> 3. Políticas y Reglas de Control
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Tolerancia Máxima de Desviación</label>
+                        <div class="relative">
+                            <input type="number" id="numTolerancia" value="10" min="0" max="100" class="w-full p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 text-sm">
+                            <span class="absolute right-3 top-3 text-slate-400 text-sm">%</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-1.5">Margen permitido antes de disparar alertas críticas de sobregasto.</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Frecuencia de Revisión</label>
+                        <select id="selRevision" class="w-full p-2.5 border border-slate-200 rounded-lg bg-white focus:outline-none focus:border-blue-500 text-sm">
+                            <option value="mensual">Mensual (Recomendado)</option>
+                            <option value="trimestral">Trimestral</option>
+                            <option value="semestral">Semestral</option>
+                        </select>
+                        <p class="text-xs text-slate-400 mt-1.5">Ciclo de corte para la comparación del presupuesto vs ejecución real.</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Fondo de Reserva de Emergencia</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-3 text-slate-400 text-sm">$</span>
+                            <input type="number" id="numReserva" value="50000" class="w-full pl-7 p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 text-sm">
+                        </div>
+                        <p class="text-xs text-slate-400 mt-1.5">Capital inmovilizado destinado exclusivamente a contingencias operativas.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="../controllers/config.js"></script>
+</body>
+</html>

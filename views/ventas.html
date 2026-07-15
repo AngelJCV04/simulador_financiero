@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificación Comercial - Simulador</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- BARRA LATERAL (CONSERVADA) -->
+        <aside class="w-64 bg-slate-900 text-white flex flex-col justify-between hidden md:flex">
+            <div class="p-5">
+                <h1 class="text-xl font-bold tracking-wider flex items-center gap-2">
+                    <i data-lucide="wallet"></i> Simulador v1.0
+                </h1>
+                <nav class="mt-10 space-y-2">
+                    <a href="../index.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+                    </a>
+                    <a href="./configuracion.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="sliders" class="w-5 h-5"></i> Configuración
+                    </a>
+                    <a href="./entorno.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="globe" class="w-5 h-5"></i> Variables de Entorno
+                    </a>
+                    <a href="./ventas.html"  class="flex items-center gap-3 px-4 py-2.5 bg-blue-600 rounded-lg text-white font-medium transition">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i> Plan de Ventas
+                    </a>
+                    <a href="./operaciones.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="factory" class="w-5 h-5"></i> Operaciones
+                    </a>
+                    <a href="./egresos.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="line-chart" class="w-5 h-5"></i> Gastos y Activos
+                    </a>
+                    <a href="./tesoreria.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="landmark" class="w-5 h-5"></i> Tesorería
+                    </a>
+                </nav>
+            </div>
+            <div class="p-5 border-t border-slate-800 text-xs text-slate-500 text-center">
+                © 2026 Sistema Presupuestario
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto p-6 md:p-8">
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Planificación Comercial e Ingresos</h2>
+                    <p class="text-sm text-slate-500">Configura catálogos comerciales, introduce metas y proyecta ventas mediante algoritmos predictivos.</p>
+                </div>
+            </header>
+
+            <!-- ALCANCE DEL PRESUPUESTO -->
+            <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs mb-8">
+                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <i data-lucide="sliders-horizontal" class="w-4 h-4 text-blue-600"></i> Alcance del Presupuesto de Ventas
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Temporalidad</label>
+                        <select id="selTemporalidad" class="w-full p-2.5 border border-slate-200 rounded-lg bg-white text-sm focus:border-blue-500 focus:outline-none">
+                            <option value="corto">Corto Plazo (12 Meses)</option>
+                            <option value="largo">Largo Plazo (3 a 5 Años)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Tipo de Presupuesto</label>
+                        <select id="selTipoPresupuesto" class="w-full p-2.5 border border-slate-200 rounded-lg bg-white text-sm focus:border-blue-500 focus:outline-none">
+                            <option value="maestro" selected>Presupuesto Maestro</option>
+                            <option value="flexible">Presupuesto Flexible (Escenarios)</option>
+                            <option value="privado">Presupuesto Privado Operativo</option>
+                            <option value="publico">Presupuesto Público / Institucional</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Método de Proyección Matemática</label>
+                        <select id="selMetodoAlgoritmo" class="w-full p-2.5 border border-slate-200 rounded-lg bg-white text-sm focus:border-blue-500 focus:outline-none">
+                            <option value="porcentual">Crecimiento Porcentual Fijo</option>
+                            <option value="lineal">Tendencia Lineal (Mínimos Cuadrados)</option>
+                            <option value="promedio">Promedio Móvil Lineal</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CATÁLOGO DE PRODUCTOS DINÁMICO -->
+            <section class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs mb-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="layers" class="text-blue-600"></i> Catálogo de Productos y Metas Base
+                    </h3>
+                    <div class="flex gap-2">
+                        <!-- Botón para Agregar Producto/Canal Dinámicamente -->
+                        <button id="btnAgregarProducto" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Añadir Línea
+                        </button>
+                        <button id="btnCalcularVentas" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-xs">
+                            <i data-lucide="calculator" class="w-4 h-4"></i> Calcular y Proyectar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-100 text-slate-400 text-xs font-bold uppercase tracking-wider">
+                                <th class="pb-3 w-1/4">Producto / Categoría</th>
+                                <th class="pb-3 w-1/4">Canal / Territorio</th>
+                                <th class="pb-3 w-1/6">Precio Unitario</th>
+                                <th class="pb-3 w-1/6">Cantidad Mensual Meta</th>
+                                <th class="pb-3 w-1/6 text-right pr-2">Subtotal Estimado</th>
+                            </tr>
+                        </thead>
+                        <!-- ID 'tablaProductos' conservado para alimentar tu controlador JS de forma dinámica -->
+                        <tbody id="tablaProductos" class="divide-y divide-slate-50 text-sm">
+                            <!-- Aquí se inyectarán dinámicamente las filas con los inputs desde ventas.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECCIÓN GRÁFICA Y RESUMEN -->
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs lg:col-span-2">
+                    <h3 class="text-base font-bold text-slate-900 mb-4">Gráfico Analítico: Proyección frente a Histórico</h3>
+                    <div class="relative h-72">
+                        <canvas id="graficaProyeccionVentas"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 mb-2">Resumen Comercial</h3>
+                        <p class="text-xs text-slate-400 mb-4">Métricas consolidadas del algoritmo comercial seleccionado.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                <span class="block text-xs text-slate-500 font-medium">Ventas Totales Proyectadas</span>
+                                <span id="txtTotalComercial" class="text-xl font-bold text-slate-900">$0.00</span>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                <span class="block text-xs text-slate-500 font-medium">Volumen Total Físico (Unidades)</span>
+                                <span id="txtVolumenUnidades" class="text-xl font-bold text-blue-600">0 unds</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-xs text-slate-400 border-t border-slate-100 pt-3 mt-4">
+                        * Los cálculos se ven afectados por las variables macroeconómicas del entorno (Inflación/PIB).
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="../controllers/ventas.js"></script>
+</body>
+</html>

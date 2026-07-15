@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesorería y Flujo de Caja - Simulador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <div class="flex h-screen overflow-hidden">
+        <aside class="w-64 bg-slate-900 text-white flex flex-col justify-between hidden md:flex">
+            <div class="p-5">
+                <h1 class="text-xl font-bold tracking-wider flex items-center gap-2">
+                    <i data-lucide="wallet"></i> Simulador v1.0
+                </h1>
+                <nav class="mt-10 space-y-2">
+                    <a href="../index.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+                    </a>
+                    <a href="configuracion.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="sliders" class="w-5 h-5"></i> Configuración
+                    </a>
+                    <a href="entorno.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="globe" class="w-5 h-5"></i> Variables de Entorno
+                    </a>
+                    <a href="ventas.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i> Plan de Ventas
+                    </a>
+                    <a href="operaciones.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="factory" class="w-5 h-5"></i> Operaciones
+                    </a>
+                    <a href="egresos.html" class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition">
+                        <i data-lucide="line-chart" class="w-5 h-5"></i> Gastos y Activos
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 bg-blue-600 rounded-lg text-white font-medium transition">
+                        <i data-lucide="landmark" class="w-5 h-5"></i> Tesorería
+                    </a>
+                </nav>
+            </div>
+            <div class="p-5 border-t border-slate-800 text-xs text-slate-500 text-center">
+                © 2026 Sistema Presupuestario
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-6 md:p-8">
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Módulo de Tesorería y Caja</h2>
+                    <p class="text-sm text-slate-500">Supervisa el efectivo real disponible en bancos y simula el impacto de apalancamientos o inversiones.</p>
+                </div>
+            </header>
+
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-xs flex items-center justify-between">
+                    <div>
+                        <span class="block text-xs font-bold text-slate-400 uppercase">Saldo Inicial en Bancos</span>
+                        <div class="relative mt-1 flex items-center">
+                            <span class="absolute left-2.5 text-slate-400 text-sm font-bold">$</span>
+                            <input type="text" id="numSaldoInicial" class="w-44 pl-6 p-1.5 bg-slate-50 border border-slate-200 rounded-md font-bold text-slate-800 text-base focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                    <div class="p-3 bg-blue-50 text-blue-600 rounded-lg"><i data-lucide="vault"></i></div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-xs flex items-center justify-between">
+                    <div>
+                        <span class="block text-xs font-bold text-slate-400 uppercase">Flujo Neto del Semestre</span>
+                        <h3 id="txtFlujoNetoPeriodo" class="text-2xl font-bold text-slate-900 mt-1">$0.00</h3>
+                    </div>
+                    <div id="wrapperFlujoIcon" class="p-3 rounded-lg"><i data-lucide="arrow-left-right"></i></div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-xs flex items-center justify-between">
+                    <div>
+                        <span class="block text-xs font-bold text-slate-400 uppercase">Caja Final Proyectada</span>
+                        <h3 id="txtCajaFinalProyectada" class="text-2xl font-bold text-slate-900 mt-1">$0.00</h3>
+                    </div>
+                    <div class="p-3 bg-emerald-50 text-emerald-600 rounded-lg"><i data-lucide="banknote"></i></div>
+                </div>
+            </section>
+
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                
+                <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs space-y-5">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="percent" class="w-4 h-4 text-blue-600"></i> Operaciones de Estructura de Capital
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <h4 class="text-xs font-bold text-slate-800 border-b border-slate-100 pb-1">Financiamiento (Inyección en Mes 1)</h4>
+                        <div>
+                            <label class="block text-xs text-slate-500 mb-1">Monto del Préstamo Solicitado</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-2.5 text-slate-400 text-sm">$</span>
+                                <input type="text" id="numPrestamo" class="w-full pl-7 p-2 border border-slate-200 rounded-lg text-sm font-semibold text-slate-800 focus:outline-none focus:border-blue-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-500 mb-1">Tasa de Interés Anual de la Banca</label>
+                            <div class="relative">
+                                <input type="number" id="numTasaPrestamo" min="0" max="100" class="w-full p-2 border border-slate-200 rounded-lg text-sm font-semibold text-slate-800 focus:outline-none focus:border-blue-500">
+                                <span class="absolute right-3 top-2.5 text-xs text-slate-400">%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 pt-2">
+                        <h4 class="text-xs font-bold text-slate-800 border-b border-slate-100 pb-1">Colocación de Excedentes (Mes 2)</h4>
+                        <div>
+                            <label class="block text-xs text-slate-500 mb-1">Monto de Inversión (Salida Temporal)</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-2.5 text-slate-400 text-sm">$</span>
+                                <input type="text" id="numInversion" class="w-full pl-7 p-2 border border-slate-200 rounded-lg text-sm font-semibold text-slate-800 focus:outline-none focus:border-blue-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="btnCorrerTesorería" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg text-xs transition flex items-center justify-center gap-2 shadow-xs">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> Procesar Movimientos de Caja
+                    </button>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-xs lg:col-span-2">
+                    <h3 class="text-base font-bold text-slate-900 mb-4">Proyección Semestral: Saldo de Caja Disponible</h3>
+                    <div class="relative h-64">
+                        <canvas id="graficaEvolucionCaja"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+    <script src="../controllers/tesoreria.js"></script>
+</body>
+</html>
